@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Prediction Result{% endblock %}
+{% block content %}
+<div class="result-center">
+    <div class="hero-lung"></div>
+    <div class="result-highlight">Result: {{ prediction }}</div>
+    <div class="result-details">
+        <div><strong>Risk Score:</strong> {{ risk_score }}</div>
+        <div><strong>Prediction Time:</strong> {{ timestamp }}</div>
+    </div>
+    <div class="result-btns">
+        <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
+        <a href="{{ url_for('get_user_predictions') }}" class="btn">View History</a>
+    </div>
+</div>
+{% endblock %}

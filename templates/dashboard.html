@@ -1,0 +1,11 @@
+<!-- templates/dashboard.html -->
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome to Your Dashboard!</h2>
+<p>Hello, {{ name }}!</p>
+<div>
+    <a href="{{ url_for('predict') }}"><button>Predict Lung Cancer Risk</button></a>
+    <a href="{{ url_for('get_user_predictions') }}"><button>View Prediction History</button></a>
+</div>
+{% endblock %}

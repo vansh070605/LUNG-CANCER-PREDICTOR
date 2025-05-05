@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Welcome | Lung Cancer Model{% endblock %}
+{% block content %}
+<div class="hero-lung"></div>
+<h2>Lung Cancer Risk Detector</h2>
+<p style="font-size:1.2rem;max-width:600px;margin:1.5rem auto;">
+    This project is a state-of-the-art web application that predicts your risk of lung cancer based on your age, gender, symptoms, and lifestyle factors. Our goal is to empower users with early risk assessment and help them take proactive steps for their health. <br><br>
+    <b>Disclaimer:</b> This tool is for educational and preliminary screening purposes only. For a medical diagnosis, always consult a healthcare professional.
+</p>
+<div class="center-btn">
+    <a href="{{ url_for('login') }}" class="btn" style="max-width:220px;">Get Started</a>
+</div>
+{% endblock %} 

@@ -1,0 +1,39 @@
+<!-- history.html -->
+{% extends 'base.html' %}
+{% block title %}Prediction History{% endblock %}
+{% block content %}
+<h2>Your Prediction History</h2>
+{% if predictions %}
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Smoking</th>
+        <th>Cough</th>
+        <th>Chest Pain</th>
+        <th>Fatigue</th>
+        <th>Shortness of Breath</th>
+        <th>Prediction</th>
+        <th>Risk Score</th>
+    </tr>
+    {% for p in predictions %}
+    <tr>
+        <td>{{ p.prediction_date }}</td>
+        <td>{{ p.age }}</td>
+        <td>{{ p.gender }}</td>
+        <td>{{ p.smoking }}</td>
+        <td>{{ p.cough }}</td>
+        <td>{{ p.chest_pain }}</td>
+        <td>{{ p.fatigue }}</td>
+        <td>{{ p.shortness_of_breath }}</td>
+        <td>{{ p.prediction }}</td>
+        <td>{{ p.risk_score }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No predictions found.</p>
+{% endif %}
+<a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+{% endblock %}
