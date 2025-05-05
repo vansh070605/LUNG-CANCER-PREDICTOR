@@ -48,17 +48,26 @@
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ Screenshots & GIFs
 
-> _Add screenshots of your app here!_
->
-> ![Screenshot Placeholder](https://via.placeholder.com/800x400?text=App+Screenshot)
+> _See the app in action!_
+
+### 🔑 Login & Registration
+![Login GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG9naW4tc2FtcGxlLWdpZi9naXBoLmdpZg/giphy.gif)
+
+### 🩺 Lung Cancer Risk Prediction
+![Prediction GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHJlZGljdC1zYW1wbGUtZ2lmL2dpcGguZ2lm/giphy.gif)
+
+### 📊 Dashboard & Results
+![Dashboard GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGFzaGJvYXJkLXNob3ctZ2lmL2dpcGguZ2lm/giphy.gif)
+
+> _Have you deployed or used this app? [Contribute your own screenshots or GIFs!](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/pulls)_
 
 ---
 
 ## 🎬 Quick Demo
 
-> _Add a demo GIF or video link here!_
+> _Watch a quick walkthrough of the main features!_
 >
 > ![Demo Placeholder](https://via.placeholder.com/600x300?text=Demo+GIF)
 
