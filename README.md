@@ -7,40 +7,40 @@
 
 ---
 
-> **Welcome!** 🚀
+	⁠*Welcome!* 🚀
 >
-> **LUNG CANCER PREDICTOR** is a modern web application for predicting lung cancer risk based on user symptoms and medical history. Built with Flask and MySQL, featuring a beautiful glassmorphism UI design.
+	⁠*LUNG CANCER PREDICTOR* is a modern web application for predicting lung cancer risk based on user symptoms and medical history. Built with Flask and MySQL, featuring a beautiful glassmorphism UI design.
 
 ---
 
 ## ✨ Features
 
-- 🔐 **User Authentication**
+•⁠  ⁠🔐 *User Authentication*
   - Secure registration and login
   - Password hashing
   - Session management
   - JWT token support
 
-- 🎯 **Risk Assessment**
+•⁠  ⁠🎯 *Risk Assessment*
   - Age and gender-based analysis
   - Smoking status evaluation
   - Symptom assessment
   - Real-time risk score calculation
 
-- 📊 **Medical History**
+•⁠  ⁠📊 *Medical History*
   - Family history tracking
   - Smoking history
   - Previous lung diseases
   - Occupational exposure
 
-- 📱 **Modern UI/UX**
+•⁠  ⁠📱 *Modern UI/UX*
   - Glassmorphism design
   - Dark theme with red accents
   - Responsive layout
   - Interactive forms
   - Real-time feedback
 
-- 📈 **Data Management**
+•⁠  ⁠📈 *Data Management*
   - Prediction history
   - User feedback system
   - Medical recommendations
@@ -48,25 +48,34 @@
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ Screenshots & GIFs
 
-> _Add screenshots of your app here!_
->
-> ![Screenshot Placeholder](https://via.placeholder.com/800x400?text=App+Screenshot)
+	⁠See the app in action!
+
+### 🔑 Login & Registration
+![Login GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbG9naW4tc2FtcGxlLWdpZi9naXBoLmdpZg/giphy.gif)
+
+### 🩺 Lung Cancer Risk Prediction
+![Prediction GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHJlZGljdC1zYW1wbGUtZ2lmL2dpcGguZ2lm/giphy.gif)
+
+### 📊 Dashboard & Results
+![Dashboard GIF](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZGFzaGJvYXJkLXNob3ctZ2lmL2dpcGguZ2lm/giphy.gif)
+
+	⁠Have you deployed or used this app? [Contribute your own screenshots or GIFs!](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/pulls)
 
 ---
 
 ## 🎬 Quick Demo
 
-> _Add a demo GIF or video link here!_
+	⁠Watch a quick walkthrough of the main features!
 >
-> ![Demo Placeholder](https://via.placeholder.com/600x300?text=Demo+GIF)
+	⁠![Demo Placeholder](https://via.placeholder.com/600x300?text=Demo+GIF)
 
 ---
 
 ## 🛠️ Technologies Used
 
-- **Backend**
+•⁠  ⁠*Backend*
   - Python 3.12
   - Flask 3.0.2
   - MySQL 8.0
@@ -74,13 +83,13 @@
   - Flask-Bcrypt
   - PyJWT
 
-- **Frontend**
+•⁠  ⁠*Frontend*
   - HTML5
   - CSS3
   - JavaScript
   - Glassmorphism Design
 
-- **Database**
+•⁠  ⁠*Database*
   - MySQL
   - Stored Procedures
   - Views
@@ -92,52 +101,52 @@
 
 ### Prerequisites
 
-- Python 3.12 or higher
-- MySQL 8.0 or higher
-- pip (Python package manager)
+•⁠  ⁠Python 3.12 or higher
+•⁠  ⁠MySQL 8.0 or higher
+•⁠  ⁠pip (Python package manager)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
+1.⁠ ⁠*Clone the repository*
+   ⁠ bash
    git clone https://github.com/vansh070605/LUNG-CANCER-PREDICTOR.git
    cd LUNG-CANCER-PREDICTOR
-   ```
+    ⁠
 
-2. **Create and activate virtual environment**
-   ```bash
+2.⁠ ⁠*Create and activate virtual environment*
+   ⁠ bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+    ⁠
 
-3. **Install dependencies**
-   ```bash
+3.⁠ ⁠*Install dependencies*
+   ⁠ bash
    pip install -r requirements.txt
-   ```
+    ⁠
 
-4. **Set up the database**
-   ```bash
+4.⁠ ⁠*Set up the database*
+   ⁠ bash
    mysql -u root -p < database/lung_cancer_db.sql
-   ```
+    ⁠
 
-5. **Configure environment variables**
-   Create a `.env` file in the root directory:
-   ```
-   SECRET_KEY=your-secret-key
+5.⁠ ⁠*Configure environment variables*
+   Create a ⁠ .env ⁠ file in the root directory:
+   
+⁠    SECRET_KEY=your-secret-key
    JWT_SECRET_KEY=your-jwt-secret-key
    DB_PASSWORD=your-mysql-password
-   ```
+    ⁠
 
-6. **Run the application**
-   ```bash
+6.⁠ ⁠*Run the application*
+   ⁠ bash
    python app.py
-   ```
+    ⁠
 
 ---
 
 ## 📁 Project Structure
 
-```
+
 LUNG-CANCER-PREDICTOR/
 ├── app.py                 # Main application file
 ├── config.py             # Configuration settings
@@ -154,52 +163,52 @@ LUNG-CANCER-PREDICTOR/
     ├── predict.html      # Prediction form
     ├── result.html       # Results page
     └── ...              # Other templates
-```
+
 
 ---
 
 ## 🔒 Security Features
 
-- Password hashing using Flask-Bcrypt
-- JWT token authentication
-- SQL injection prevention
-- Input validation
-- Session management
-- Protected routes
+•⁠  ⁠Password hashing using Flask-Bcrypt
+•⁠  ⁠JWT token authentication
+•⁠  ⁠SQL injection prevention
+•⁠  ⁠Input validation
+•⁠  ⁠Session management
+•⁠  ⁠Protected routes
 
 ---
 
 ## 🎨 UI Features
 
-- Modern glassmorphism design
-- Dark theme with red accents
-- Responsive layout
-- Interactive forms
-- Real-time feedback
-- Animated transitions
-- Mobile-friendly design
+•⁠  ⁠Modern glassmorphism design
+•⁠  ⁠Dark theme with red accents
+•⁠  ⁠Responsive layout
+•⁠  ⁠Interactive forms
+•⁠  ⁠Real-time feedback
+•⁠  ⁠Animated transitions
+•⁠  ⁠Mobile-friendly design
 
 ---
 
 ## 📊 Database Schema
 
-- **users**: User information
-- **medical_history**: Medical background
-- **predictions**: Risk assessment results
-- **user_predictions**: User-prediction mapping
-- **symptoms**: Symptom database
-- **recommendations**: Medical advice
-- **user_feedback**: User feedback
+•⁠  ⁠*users*: User information
+•⁠  ⁠*medical_history*: Medical background
+•⁠  ⁠*predictions*: Risk assessment results
+•⁠  ⁠*user_predictions*: User-prediction mapping
+•⁠  ⁠*symptoms*: Symptom database
+•⁠  ⁠*recommendations*: Medical advice
+•⁠  ⁠*user_feedback*: User feedback
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1.⁠ ⁠Fork the repository
+2.⁠ ⁠Create your feature branch (⁠ git checkout -b feature/AmazingFeature ⁠)
+3.⁠ ⁠Commit your changes (⁠ git commit -m 'Add some AmazingFeature' ⁠)
+4.⁠ ⁠Push to the branch (⁠ git push origin feature/AmazingFeature ⁠)
+5.⁠ ⁠Open a Pull Request
 
 ---
 
@@ -211,35 +220,35 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- **Vansh**  
-- **Hirav Kadikar**
+•⁠  ⁠*Vansh*  
+•⁠  ⁠*Hirav Kadikar*
 
 ---
 
 ## 🙏 Acknowledgments
 
-- Medical data sources
-- Open source community
-- Flask documentation
-- MySQL documentation
+•⁠  ⁠Medical data sources
+•⁠  ⁠Open source community
+•⁠  ⁠Flask documentation
+•⁠  ⁠MySQL documentation
 
 ---
 
 ## 💬 Community & Support
 
-- [GitHub Discussions](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/discussions)
-- [Report Issues](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/issues)
-- [Contact Vansh on Twitter](https://twitter.com/vansh070605)
+•⁠  ⁠[GitHub Discussions](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/discussions)
+•⁠  ⁠[Report Issues](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/issues)
+•⁠  ⁠[Contact Vansh on Twitter](https://twitter.com/vansh070605)
 
 ---
 
 ## ⭐ Show your support
 
-> **Give a ⭐️ if this project helped you!**
+	⁠*Give a ⭐️ if this project helped you!*
 > 
-> _We appreciate your feedback and contributions!_
+	⁠We appreciate your feedback and contributions!
 
 ## 📞 Contact
 
 Vansh - [@vansh070605](https://twitter.com/vansh070605)
-Project Link: [https://github.com/vansh070605/LUNG-CANCER-PREDICTOR](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR)   
+Project Link: [https://github.com/vansh070605/LUNG-CANCER-PREDICTOR](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR)
