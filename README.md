@@ -7,7 +7,7 @@
 
 ---
 
-	⁠*Welcome!* 🚀
+	⁠Welcome! 🚀
 >
 	⁠*LUNG CANCER PREDICTOR* is a modern web application for predicting lung cancer risk based on user symptoms and medical history. Built with Flask and MySQL, featuring a beautiful glassmorphism UI design.
 
