@@ -5,7 +5,13 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-A modern web application for predicting lung cancer risk based on user symptoms and medical history. Built with Flask and MySQL, featuring a beautiful glassmorphism UI design.
+---
+
+> **Welcome!** 🚀
+>
+> **LUNG CANCER PREDICTOR** is a modern web application for predicting lung cancer risk based on user symptoms and medical history. Built with Flask and MySQL, featuring a beautiful glassmorphism UI design.
+
+---
 
 ## ✨ Features
 
@@ -40,6 +46,24 @@ A modern web application for predicting lung cancer risk based on user symptoms 
   - Medical recommendations
   - Symptom database
 
+---
+
+## 🖼️ Screenshots
+
+> _Add screenshots of your app here!_
+>
+> ![Screenshot Placeholder](https://via.placeholder.com/800x400?text=App+Screenshot)
+
+---
+
+## 🎬 Quick Demo
+
+> _Add a demo GIF or video link here!_
+>
+> ![Demo Placeholder](https://via.placeholder.com/600x300?text=Demo+GIF)
+
+---
+
 ## 🛠️ Technologies Used
 
 - **Backend**
@@ -61,6 +85,8 @@ A modern web application for predicting lung cancer risk based on user symptoms 
   - Stored Procedures
   - Views
   - Triggers
+
+---
 
 ## 🚀 Getting Started
 
@@ -107,6 +133,8 @@ A modern web application for predicting lung cancer risk based on user symptoms 
    python app.py
    ```
 
+---
+
 ## 📁 Project Structure
 
 ```
@@ -128,6 +156,8 @@ LUNG-CANCER-PREDICTOR/
     └── ...              # Other templates
 ```
 
+---
+
 ## 🔒 Security Features
 
 - Password hashing using Flask-Bcrypt
@@ -136,6 +166,8 @@ LUNG-CANCER-PREDICTOR/
 - Input validation
 - Session management
 - Protected routes
+
+---
 
 ## 🎨 UI Features
 
@@ -147,6 +179,8 @@ LUNG-CANCER-PREDICTOR/
 - Animated transitions
 - Mobile-friendly design
 
+---
+
 ## 📊 Database Schema
 
 - **users**: User information
@@ -157,6 +191,8 @@ LUNG-CANCER-PREDICTOR/
 - **recommendations**: Medical advice
 - **user_feedback**: User feedback
 
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -165,13 +201,20 @@ LUNG-CANCER-PREDICTOR/
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+---
+
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+---
+
 ## 👥 Authors
 
-- Vansh - Initial work
+- **Vansh**  
+- **Hirav Kadikar**
+
+---
 
 ## 🙏 Acknowledgments
 
@@ -180,11 +223,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Flask documentation
 - MySQL documentation
 
-## 📞 Contact
+---
 
-Vansh - [@vansh070605](https://twitter.com/vansh070605)
-Project Link: [https://github.com/vansh070605/LUNG-CANCER-PREDICTOR](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR)
+## 💬 Community & Support
+
+- [GitHub Discussions](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/discussions)
+- [Report Issues](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR/issues)
+- [Contact Vansh on Twitter](https://twitter.com/vansh070605)
+
+---
 
 ## ⭐ Show your support
 
-Give a ⭐️ if this project helped you! 
+> **Give a ⭐️ if this project helped you!**
+> 
+> _We appreciate your feedback and contributions!_
+
+## 📞 Contact
+
+Vansh - [@vansh070605](https://twitter.com/vansh070605)
+Project Link: [https://github.com/vansh070605/LUNG-CANCER-PREDICTOR](https://github.com/vansh070605/LUNG-CANCER-PREDICTOR)   
