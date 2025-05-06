@@ -7,6 +7,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from datetime import datetime, timedelta
 from functools import wraps
+import uuid
+import json
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)
@@ -14,14 +16,15 @@ app.config['SECRET_KEY'] = os.urandom(24)
 app.config['JWT_EXPIRATION_DELTA'] = timedelta(days=1)
 app.secret_key = 'your_secret_key_here'  # Set a secret key for sessions
 
-# Database Connection
+# Database Connection with transaction support
 def create_connection():
     try:
         connection = mysql.connector.connect(
             host='localhost',
             user='root',  # Change as per your MySQL setup
             password='root',  # Change as per your MySQL setup
-            database='lung_cancer_db'
+            database='lung_cancer_db',
+            autocommit=False  # Disable autocommit for transaction control
         )
         return connection
     except Error as e:
@@ -63,6 +66,92 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+# Transaction management decorator
+def transaction_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        connection = create_connection()
+        if not connection:
+            return jsonify({'message': 'Database connection error'}), 500
+        
+        try:
+            cursor = connection.cursor()
+            # Start transaction
+            cursor.execute("START TRANSACTION")
+            
+            # Execute the function
+            result = f(connection, cursor, *args, **kwargs)
+            
+            # Commit transaction
+            connection.commit()
+            return result
+        except Exception as e:
+            # Rollback on error
+            connection.rollback()
+            return jsonify({'message': f'Transaction failed: {str(e)}'}), 500
+        finally:
+            cursor.close()
+            connection.close()
+    
+    return decorated
+
+# Lock management functions
+def acquire_lock(connection, cursor, table_name, record_id, lock_type, user_id, timeout_minutes=5):
+    try:
+        lock_id = str(uuid.uuid4())
+        cursor.execute("""
+            INSERT INTO lock_management 
+            (table_name, record_id, lock_type, lock_holder, lock_timeout)
+            VALUES (%s, %s, %s, %s, DATE_ADD(NOW(), INTERVAL %s MINUTE))
+        """, (table_name, record_id, lock_type, user_id, timeout_minutes))
+        connection.commit()
+        return lock_id
+    except Error as e:
+        connection.rollback()
+        return None
+
+def release_lock(connection, cursor, table_name, record_id, user_id):
+    try:
+        cursor.execute("""
+            DELETE FROM lock_management 
+            WHERE table_name = %s AND record_id = %s AND lock_holder = %s
+        """, (table_name, record_id, user_id))
+        connection.commit()
+        return True
+    except Error as e:
+        connection.rollback()
+        return False
+
+# Version control functions
+def check_version(connection, cursor, table_name, record_id, expected_version):
+    try:
+        cursor.execute("""
+            SELECT version_number 
+            FROM version_control 
+            WHERE table_name = %s AND record_id = %s
+        """, (table_name, record_id))
+        result = cursor.fetchone()
+        if not result or result[0] != expected_version:
+            return False
+        return True
+    except Error:
+        return False
+
+def update_version(connection, cursor, table_name, record_id, user_id):
+    try:
+        cursor.execute("""
+            INSERT INTO version_control (table_name, record_id, version_number, modified_by)
+            VALUES (%s, %s, 1, %s)
+            ON DUPLICATE KEY UPDATE 
+            version_number = version_number + 1,
+            modified_by = %s
+        """, (table_name, record_id, user_id, user_id))
+        connection.commit()
+        return True
+    except Error:
+        connection.rollback()
+        return False
 
 # Basic lung cancer risk assessment model
 def predict_lung_cancer_risk(age, gender, smoking, cough, chest_pain, fatigue, shortness_of_breath):
@@ -122,35 +211,44 @@ def home():
     return render_template('intro.html')
 
 @app.route('/register', methods=['GET', 'POST'])
-def register():
+@transaction_required
+def register(connection, cursor):
     if request.method == 'GET':
         return render_template('register.html')
-    if request.method == 'POST':
-        data = request.form if request.form else request.get_json()
-        name = data.get('name')
-        email = data.get('email')
-        password = data.get('password')
-        if not name or not email or not password:
-            flash('Missing required fields', 'error')
+    
+    data = request.form if request.form else request.get_json()
+    name = data.get('name')
+    email = data.get('email')
+    password = data.get('password')
+    
+    if not name or not email or not password:
+        flash('Missing required fields', 'error')
+        return render_template('register.html')
+    
+    try:
+        # Check if email already exists
+        cursor.execute("SELECT id FROM users WHERE email = %s", (email,))
+        if cursor.fetchone():
+            flash('Email already registered', 'error')
             return render_template('register.html')
+        
+        # Insert new user
         hashed_password = generate_password_hash(password)
-        connection = create_connection()
-        if not connection:
-            flash('Database connection error', 'error')
-            return render_template('register.html')
-        cursor = connection.cursor()
-        try:
-            cursor.execute("INSERT INTO users (Name, Email, password_hash) VALUES (%s, %s, %s)", (name, email, hashed_password))
-            connection.commit()
-            flash('User registered successfully. Please login.', 'success')
-            return redirect(url_for('login'))
-        except Error as e:
-            connection.rollback()
-            flash(f'Registration failed: {str(e)}', 'error')
-            return render_template('register.html')
-        finally:
-            cursor.close()
-            connection.close()
+        cursor.execute(
+            "INSERT INTO users (name, email, password_hash) VALUES (%s, %s, %s)",
+            (name, email, hashed_password)
+        )
+        
+        user_id = cursor.lastrowid
+        
+        # Initialize version control
+        update_version(connection, cursor, 'users', user_id, user_id)
+        
+        flash('User registered successfully. Please login.', 'success')
+        return redirect(url_for('login'))
+    except Error as e:
+        flash(f'Registration failed: {str(e)}', 'error')
+        return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -197,57 +295,65 @@ def dashboard():
 
 @app.route('/predict', methods=['GET', 'POST'])
 @login_required
-def predict():
+@transaction_required
+def predict(connection, cursor):
     if request.method == 'GET':
         return render_template('predict.html', user_id=session.get('user_id'))
-    if request.method == 'POST':
-        data = request.form if request.form else request.get_json()
-        try:
-            age = int(data.get('age'))
-            gender = data.get('gender')
-            smoking = data.get('smoking')
-            cough = data.get('cough')
-            chest_pain = data.get('chest_pain')
-            fatigue = data.get('fatigue')
-            shortness_of_breath = data.get('shortness_of_breath')
-            user_id = session.get('user_id')
-        except (ValueError, TypeError) as e:
-            flash(f'Invalid input: {str(e)}', 'error')
-            return render_template('predict.html', user_id=session.get('user_id'))
-        if not all([gender, smoking, cough, chest_pain, fatigue, shortness_of_breath]):
-            flash('All fields are required', 'error')
-            return render_template('predict.html', user_id=session.get('user_id'))
-        if age < 0 or age > 120:
-            flash('Age must be between 0 and 120', 'error')
-            return render_template('predict.html', user_id=session.get('user_id'))
-        prediction_result = predict_lung_cancer_risk(age, gender, smoking, cough, chest_pain, fatigue, shortness_of_breath)
-        connection = create_connection()
-        if not connection:
-            flash('Database connection error', 'error')
-            return render_template('predict.html', user_id=session.get('user_id'))
-        cursor = connection.cursor()
-        try:
-            cursor.execute(
-                """INSERT INTO predictions 
-                (age, gender, smoking, cough, chest_pain, fatigue, shortness_of_breath, prediction, risk_score)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                (age, gender, smoking, cough, chest_pain, fatigue, shortness_of_breath, prediction_result["prediction"], prediction_result["risk_score"])
-            )
-            prediction_id = cursor.lastrowid
-            if user_id:
-                cursor.execute(
-                    "INSERT INTO user_predictions (user_id, prediction_id) VALUES (%s, %s)",
-                    (user_id, prediction_id)
-                )
-            connection.commit()
-            return render_template('result.html', prediction=prediction_result["prediction"], risk_score=prediction_result["risk_score"], timestamp=datetime.now().isoformat())
-        except Error as e:
-            connection.rollback()
-            flash(f'Error saving prediction: {str(e)}', 'error')
-            return render_template('predict.html', user_id=session.get('user_id'))
-        finally:
-            cursor.close()
-            connection.close()
+    
+    user_id = session.get('user_id')
+    data = request.form if request.form else request.get_json()
+    
+    try:
+        # Acquire lock for user's predictions
+        lock_id = acquire_lock(connection, cursor, 'predictions', user_id, 'EXCLUSIVE', user_id)
+        if not lock_id:
+            flash('System is busy. Please try again.', 'error')
+            return render_template('predict.html', user_id=user_id)
+        
+        # Process prediction
+        prediction_result = predict_lung_cancer_risk(
+            int(data.get('age')),
+            data.get('gender'),
+            data.get('smoking'),
+            data.get('cough'),
+            data.get('chest_pain'),
+            data.get('fatigue'),
+            data.get('shortness_of_breath')
+        )
+        
+        # Insert prediction with version control
+        cursor.execute(
+            """INSERT INTO predictions 
+            (age, gender, smoking, cough, chest_pain, fatigue, shortness_of_breath, 
+             prediction, risk_score, version)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, 1)""",
+            (data.get('age'), data.get('gender'), data.get('smoking'),
+             data.get('cough'), data.get('chest_pain'), data.get('fatigue'),
+             data.get('shortness_of_breath'), prediction_result["prediction"],
+             prediction_result["risk_score"])
+        )
+        
+        prediction_id = cursor.lastrowid
+        
+        # Link prediction to user
+        cursor.execute(
+            "INSERT INTO user_predictions (user_id, prediction_id) VALUES (%s, %s)",
+            (user_id, prediction_id)
+        )
+        
+        # Initialize version control for prediction
+        update_version(connection, cursor, 'predictions', prediction_id, user_id)
+        
+        # Release lock
+        release_lock(connection, cursor, 'predictions', user_id, user_id)
+        
+        return render_template('result.html',
+                             prediction=prediction_result["prediction"],
+                             risk_score=prediction_result["risk_score"],
+                             timestamp=datetime.now().isoformat())
+    except Exception as e:
+        flash(f'Error processing prediction: {str(e)}', 'error')
+        return render_template('predict.html', user_id=user_id)
 
 @app.route('/user/predictions', methods=['GET'])
 @login_required
