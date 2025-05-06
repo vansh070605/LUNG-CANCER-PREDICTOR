@@ -352,3 +352,7 @@ BEGIN
     CLOSE cur;
 END $$
 DELIMITER ;
+
+SELECT * FROM lock_management;
+
+SELECT * FROM lock_management WHERE table_name = 'predictions' AND record_id = <user_id>;

@@ -3,6 +3,7 @@
 {% block title %}Predict Risk{% endblock %}
 {% block content %}
 <h2>Predict Lung Cancer Risk</h2>
+
 <form method="POST" action="{{ url_for('predict') }}">
     <label for="age">Age:</label>
     <input type="number" id="age" name="age" min="0" max="120" required><br>
