@@ -304,10 +304,10 @@ def predict(connection, cursor):
     data = request.form if request.form else request.get_json()
     
     try:
-        # Acquire lock for user's predictions
-        lock_id = acquire_lock(connection, cursor, 'predictions', user_id, 'EXCLUSIVE', user_id)
+        # Acquire a GLOBAL lock for predictions (only one user can predict at a time)
+        lock_id = acquire_lock(connection, cursor, 'predictions', 0, 'EXCLUSIVE', user_id)
         if not lock_id:
-            flash('System is busy. Please try again.', 'error')
+            flash('System is busy. Only one user can predict at a time. Please try again later.', 'error')
             return render_template('predict.html', user_id=user_id)
         
         # Process prediction
@@ -344,14 +344,16 @@ def predict(connection, cursor):
         # Initialize version control for prediction
         update_version(connection, cursor, 'predictions', prediction_id, user_id)
         
-        # Release lock
-        release_lock(connection, cursor, 'predictions', user_id, user_id)
+        # Release the global lock
+        release_lock(connection, cursor, 'predictions', 0, user_id)
         
         return render_template('result.html',
                              prediction=prediction_result["prediction"],
                              risk_score=prediction_result["risk_score"],
                              timestamp=datetime.now().isoformat())
     except Exception as e:
+        # Always try to release the lock if an error occurs
+        release_lock(connection, cursor, 'predictions', 0, user_id)
         flash(f'Error processing prediction: {str(e)}', 'error')
         return render_template('predict.html', user_id=user_id)
 

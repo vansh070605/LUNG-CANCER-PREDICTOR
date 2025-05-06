@@ -144,26 +144,67 @@
 
 ---
 
-## 📁 Project Structure
+## 🗂️ Project Structure
 
-
+```
 LUNG-CANCER-PREDICTOR/
-├── app.py                 # Main application file
-├── config.py             # Configuration settings
-├── requirements.txt      # Python dependencies
+├── app.py                 # Main Flask application
+├── config.py              # Configuration settings
+├── requirements.txt       # Python dependencies
+├── README.md              # Project documentation
+├── survey lung cancer.csv # Sample dataset
 ├── database/
-│   └── lung_cancer_db.sql # Database schema
+│   └── lung_cancer_db.sql # MySQL database schema & procedures
+├── model/
+│   ├── dummy_model.py     # Placeholder for ML model code
+│   └── model.pkl          # (Optional) Trained model file
 ├── static/
-│   └── styles.css        # CSS styles
-└── templates/
-    ├── base.html         # Base template
-    ├── index.html        # Landing page
-    ├── login.html        # Login page
-    ├── register.html     # Registration page
-    ├── predict.html      # Prediction form
-    ├── result.html       # Results page
-    └── ...              # Other templates
+│   └── styles.css         # CSS styles
+├── templates/
+│   ├── base.html          # Base template
+│   ├── dashboard.html     # User dashboard
+│   ├── history.html       # Prediction history
+│   ├── index.html         # Landing page
+│   ├── intro.html         # Introduction page
+│   ├── login.html         # Login form
+│   ├── predict.html       # Prediction form
+│   ├── register.html      # Registration form
+│   └── result.html        # Prediction result
+└── .gitignore             # Git ignore file
+```
 
+---
+
+## 🚀 Features
+- User registration and login (with hashed passwords)
+- Lung cancer risk prediction based on symptoms and history
+- Prediction history and feedback
+- Medical recommendations
+- Concurrency control: Only one user can make a prediction at a time (global lock)
+- Recovery mechanisms: Transaction logging, backup, and point-in-time recovery
+- Modern, responsive UI
+
+---
+
+## 🧩 Key Database Features
+- **Lock Management:** Only one user can make a prediction at a time (global lock on `predictions` table).
+- **Version Control:** Prevents lost updates and supports optimistic concurrency.
+- **Transaction Log:** All changes are logged for audit and recovery.
+- **Backup & Recovery:** Daily backups and point-in-time recovery procedures.
+- **Deadlock Detection:** Automatic cleanup of expired locks.
+
+---
+
+## 💡 Usage
+- Register a new user or log in.
+- Navigate to the Predict page and fill out the form.
+- If another user is already predicting, you will see an error message.
+- View your prediction history and feedback.
+
+---
+
+## 📄 License
+This project is for educational purposes.
 
 ---
 
